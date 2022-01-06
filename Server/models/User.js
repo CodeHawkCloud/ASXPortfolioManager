@@ -6,6 +6,8 @@ const mongooseSchema = mongoose.Schema
 
 //create user schema
 const userSchema = new mongooseSchema({
+    firstName: String,
+    lastName: String,
     username: String,
     password: String
 })

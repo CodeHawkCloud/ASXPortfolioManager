@@ -24,6 +24,7 @@ router.get('/', (req, res) => {
 
 //sign up user
 router.post('/signUp', (req, res) => {
+    
     let userInfo = req.body
     let user = new User(userInfo)
 
@@ -31,7 +32,7 @@ router.post('/signUp', (req, res) => {
     user.save((error, userRegistered) =>{
 
         if(error){
-            console('Registration Unsuccesful')
+            console.log('Registration Unsuccesful')
         }else{
             res.status(200).send(userRegistered)
         }
@@ -47,14 +48,17 @@ router.post('/login', (req, res) =>{
 
     //find for the username
     User.findOne({username: userInfo.username}, (error, userFound) =>{
-        if(error || !userFound ){
-            res.status(401).send('Login Unsucessful')
+        if(error){
+            console.log('Login Unsuccesful')
         }else{
-            if(userFound.password !== userInfo.password){
+            if(!userFound){
                 res.status(401).send('Login Unsuccessful')
             }else{
-                res.status(200).send('Login Successful ' + userInfo.username + '!')
-
+                if(userFound.password !== userInfo.password){
+                    res.status(401).send('Login Unsuccesful')
+                }else{
+                    res.status(200).send(userInfo.username)
+                }
             }
         }
     })

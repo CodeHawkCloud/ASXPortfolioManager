@@ -1,0 +1,13 @@
+/*form*/
+/*login container*/
+#row_login{
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    align-items: center;
+    
+}
+/*login button*/
+#login_button{
+    float: right;
+}

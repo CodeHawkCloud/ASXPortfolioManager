@@ -1,0 +1,13 @@
+/*form*/
+/*signUp container*/
+#row_signUp{
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    align-items: center;
+    
+}
+/*signUp button*/
+#signUp_Button{
+    float: right;
+}

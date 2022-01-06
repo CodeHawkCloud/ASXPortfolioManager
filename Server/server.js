@@ -1,6 +1,7 @@
 //reuiring express and body parsers
 const express  = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 //port for the express server
 const expressPort = 3002
@@ -9,6 +10,9 @@ const api = require('./routes/api')
 
 //initialize express server
 const expressApp = express()
+
+//using cors
+expressApp.use(cors())
 
 //body parser handling json data
 expressApp.use(bodyParser.json())
