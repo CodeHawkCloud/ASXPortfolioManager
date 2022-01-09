@@ -64,19 +64,242 @@ router.post('/login', (req, res) =>{
     })
 })
 
+//check holding
+router.post('/checkHolding', (req, res) =>{
+
+    let saleInfo1 = req.body
+    let tempTicker = saleInfo1.ticker
+    let tempUnits = saleInfo1.units
+
+    User.findOne(
+    {"username": saleInfo1.username},
+    (error, userFound)=> {
+        if(error){
+            res.status(401).send('Error checking Holdings!')
+        }else{
+
+            let unitsAvailable = false
+            for(let i = 0; i < userFound.holdings.length; i++){
+                if(userFound.holdings[i].ticker == tempTicker){
+                    if(userFound.holdings[i].units >= tempUnits){
+
+                        let remainingUnitsAfterSale = tempUnits - userFound.holdings[i].units
+                        res.status(200).send(userFound.holdings[i]._id + " " + remainingUnitsAfterSale)
+                        return
+                    }else{
+                        res.status(401).send('' + userFound.holdings[i].units)
+                        return
+                    }
+                }
+
+               
+            }
+
+            res.status(401).send(unitsAvailable)
+
+        }
+    })
+})
+
 //add a sale
+router.post('/addSale', (req, res) =>{
+    
+    let saleInfo2 = req.body
+
+    User.updateOne(
+        {username: saleInfo2.username},
+        {
+            $inc: {
+                saleCount: 1               
+            },
+            $push: {
+                sales:{
+                    companyName: saleInfo2.companyName, 
+                    industry: saleInfo2.industry,
+                    ticker: saleInfo2.ticker, 
+                    units: saleInfo2.units, 
+                    purchasePrice: saleInfo2.purchasePrice, 
+                    brokerageFeePurchase: saleInfo2.brokerageFeePurchase, 
+                    brokerageFeeSale: saleInfo2.brokerageFeeSale,
+                    dateBought: saleInfo2.dateBought,
+                    dateSold: saleInfo2.dateSold
+                }
+            },
+        },
+        (error2, call) =>{
+
+            if(error2 || !call.acknowledged){
+    
+                res.status(401).send('Sale not added!')
+            }else{
+                res.status(200).send('Sale Added')
+            }
+        }
+    )
+})
+
+//remove from holdings
+router.post('/removeFromHoldings', (req, res) =>{
+
+    let holdingsInfo = req.body
+
+    User.updateOne(
+        {"username": holdingsInfo.username},
+        {
+            $pull:{
+                "holdings": {
+                    _id: holdingsInfo.id
+                }
+            },
+            $inc:{
+                holdingCount: -1
+            }
+        },
+        (error2, response)=>{
+            if(error2 || !response.acknowledged){
+                res.status(401).send("Holding Removal Failed")
+            }else{
+                res.status(200).send("Success")
+            }
+        }
+    )
+})
+
+//update holdings
+router.post('/updateHoldings', (req, res)=>{
+
+    let holdingsInfo2 = req.body
+    let remainingUnits = holdingsInfo2.remainingUnits
+
+
+    User.updateOne(
+        {"username": holdingsInfo2.username, "holdings._id": holdingsInfo2.id},
+        {
+            $set:{
+                "holdings.$.units": remainingUnits
+            }
+        },
+        (error, response) =>{
+            if(error || !response.acknowledged){
+                res.status(401).send("Update Holdings Failed!")
+            }else{
+                res.status(200).send(''+remainingUnits)
+            }
+        }
+        
+    )
+})
 
 //add a purchase
+router.post('/addStock', (req, res) =>{
 
-//delete a purchase
+    let purchaseInfo = req.body
 
-//view my portfolio
+    //adding the stock to the database
+    User.updateOne(
+        {username: purchaseInfo.username}, 
+        {
+            $inc:{
+                purchaseCount: 1,
+            },
+            $push:{
+                
+                purchases:{
+                    "companyName" : purchaseInfo.companyName, 
+                    "industry" : purchaseInfo.industry,
+                    "ticker": purchaseInfo.ticker, 
+                    "units": purchaseInfo.units, 
+                    "purchasePrice": purchaseInfo.purchasePrice, 
+                    "brokerageFeePurchase": purchaseInfo.brokerageFeePurchase, 
+                    "brokerageFeeSale": purchaseInfo.brokerageFeeSale,
+                    "dateBought": purchaseInfo.dateBought,
+                },
+                holdings: {
 
-//Edit a stock
+                    "companyName" : purchaseInfo.companyName, 
+                    "industry" : purchaseInfo.industry,
+                    "ticker": purchaseInfo.ticker, 
+                    "units": purchaseInfo.units, 
+                    "purchasePrice": purchaseInfo.purchasePrice, 
+                    "brokerageFeePurchase": purchaseInfo.brokerageFeePurchase, 
+                    "brokerageFeeSale": purchaseInfo.brokerageFeeSale,
+                    "dateBought": purchaseInfo.dateBought,
+                }
+            },
+            
+        }, 
+ 
+        (error2, response) =>{
 
-//calculate current profit/loss
+            if(error2 || !response.acknowledged){
 
-//calculate sale profit/loss
+                res.status(401).send('Stock not added!')
+            }else{
+                res.status(200).send('Stock Added')
+            }
+        }
+        
+    )
+
+})
+
+
+//view my portfolio (get all holdings values)
+router.post('/getHoldings', (req, res)=>{
+
+    let info = req.body
+
+    User.findOne(
+        {"username": info.username},
+        {"_id": 0, "holdings": 1},
+        (error, response)=>{
+
+            if(error){
+                res.status(401).send("Erorr loading holdings!")
+            }else{
+                res.status(200).send(response)
+            }
+        }
+    )
+})
+
+//view purchases
+router.post('/getPurchases', (req, res)=>{
+
+    let info = req.body
+
+    User.findOne(
+        {"username": info.username},
+        {"_id": 0, "purchases": 1},
+        (error, response)=>{
+
+            if(error){
+                res.status(401).send("Erorr loading purchases!")
+            }else{
+                res.status(200).send(response)
+            }
+        }
+    )
+})
+
+//view sales
+router.post('/getSales', (req, res)=>{
+
+    let info = req.body
+
+    User.findOne(
+        {"username": info.username},
+        {"_id": 0, "sales": 1},
+        (error, response)=>{
+
+            if(error){
+                res.status(401).send("Erorr loading sales!")
+            }else{
+                res.status(200).send(response)
+            }
+        }
+    )
+})
 
 //export router
 module.exports = router

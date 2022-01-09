@@ -10,13 +10,21 @@ import { LoginComponent } from './login/login.component';
 import { SignUpService } from './sign-up.service';
 import { LoginService } from './login.service';
 import { HomeComponent } from './home/home.component';
+import { MyPortfolioComponent } from './my-portfolio/my-portfolio.component';
+import { AddStockComponent } from './add-stock/add-stock.component';
+import { SellStockComponent } from './sell-stock/sell-stock.component';
+import { UpdateStockComponent } from './update-stock/update-stock.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    MyPortfolioComponent,
+    AddStockComponent,
+    SellStockComponent,
+    UpdateStockComponent
   ],
   imports: [
     BrowserModule,
