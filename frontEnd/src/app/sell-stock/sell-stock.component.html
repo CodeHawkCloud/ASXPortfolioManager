@@ -1,1 +1,68 @@
-<p>sell-stock works!</p>
+<div class="container " id = "outerContainer">
+
+    <!--alert-->
+    <div class="alert alert-primary">
+        <h4>A single transaction of sale made will be limited to shares bought at a certain price.</h4>
+        <hr>
+        <p>If you are selling shares that were bought for 2 different prices, you have to do the transaction twice.</p>
+        <p>On the right you can check for the remaining units at a certain price of a single company.</p>
+    </div>
+
+    <!--row for sell form and check units form-->
+    <div class="row">
+        <!--sell form-->
+        <div class="col-md-6 col-xl-6 sellStockContainer">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Sell a Stock</h4>
+                    <form class="form">
+
+                        <div class="form-group">
+                            <label for="ticker">Ticker symbol</label>
+                            <input [(ngModel)] = "sellData.ticker" type="text" class="form-control" id = "ticker" name="ticker" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="units">Units</label>
+                            <input [(ngModel)] = "sellData.units" type="number" class="form-control" id="units" name="units" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePrice">Sale Price</label>
+                            <input [(ngModel)] = "sellData.salePrice" type="number" class="form-control" id="salePrice" name="salePrice" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="brokerageSale">Brokerage fee on sale</label>
+                            <input [(ngModel)] = "sellData.brokerageFeeSale" type="number" class="form-control" id="brokerageSale" name="brokerageSale" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="dateBought">Date Sold</label>
+                            <input [(ngModel)] = "sellData.dateSold" type="date" class="form-control" id="dateSold" name="dateSold" required>
+                        </div>
+
+                        <button (click) = "addSale()" class="btn btn-primary btns" id="sellStock_Button">Sell Stock</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--check units form-->
+        <div class="col-md-6 col-xl-6 checkUnitsContainer align-self-center">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Check Units</h4>
+
+                    <div class="form-group">
+                        <label for="ticker2">Ticker Symbol</label>
+                        <input [(ngModel)] = "checkUnitsData.ticker" type="text" class="form-control" id="ticker2" name="ticker2" required>
+                    </div>
+
+                    <button (click) = "checkUnits()" class="btn btn-primary btns" id="check_Button">Check Unit Availability</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -7,7 +7,7 @@ const mongooseSchema = mongoose.Schema
 //purchaseAndHolding Schema
 const purchaseAndHoldingSchema = new mongooseSchema({
     companyName: String, 
-    Industry: String,
+    industry: String,
     ticker: String, 
     units: Number, 
     purchasePrice: Number, 
@@ -25,6 +25,7 @@ const salesSchema = new mongooseSchema({
     purchasePrice: Number, 
     brokerageFeePurchase: Number, 
     brokerageFeeSale: Number,
+    salePrice: Number,
     dateBought: Date,
     dateSold: Date
 })

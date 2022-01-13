@@ -1,1 +1,149 @@
-<p>my-portfolio works!</p>
+<div class="container outerBox">
+
+    <div class="row" id="buttonRow">
+        <button (click) = "activateDivision.holdingsDiv = true; activateDivision.salesDiv = false; activateDivision.purchasesDiv = false" class="btn btn-primary btns" id="holdings_Button">My holdings</button>
+        <button (click) = "activateDivision.holdingsDiv = false; activateDivision.salesDiv = true; activateDivision.purchasesDiv = false" class="btn btn-info btns" id="sales_Button">My Sales</button>
+        <button (click) = "activateDivision.holdingsDiv = false; activateDivision.salesDiv = false; activateDivision.purchasesDiv = true" class="btn btn-warning btns" id="purchases_Button">My Purchases</button>
+
+    </div>
+
+    <div *ngIf= "activateDivision.holdingsDiv" class="container holdingsContainer infoContent">
+
+        <div class="row tableRow">
+            <!--Heading-->
+            <h4 class="infoHeading">My Holdings</h4>
+
+            <!--start of table-->
+            <table class="table">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Company</th>
+                        <th>Ticker</th>
+                        <th>Industry</th>
+                        <th>Units</th>
+                        <th>Purchase Price</th>
+                        <th>Brokerage - Purchase</th>
+                        <th>Brokerage - Sale</th>
+                        <th>Total Cost</th>
+                        <th>Current Price</th>
+                        <th>Total Value</th>
+                        <th>Profit/Loss</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+                    <tr *ngFor="let holding of holdingsData.holdings"> 
+                        <td>{{holding.companyName}}</td>
+                        <td>{{holding.ticker}}</td>
+                        <td>{{holding.industry}}</td>
+                        <td>{{holding.units}}</td>
+                        <td>{{holding.purchasePrice}}</td>
+                        <td>{{holding.brokerageFeePurchase}}</td>
+                        <td>{{holding.brokerageFeeSale}}</td>
+                        <td>{{getTotalCost(holding.units, holding.purchasePrice, holding.brokerageFeePurchase, holding.brokerageFeeSale)}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+
+                    </tr>
+                        
+                </tbody>
+
+            </table>
+        </div>
+    
+    </div>
+
+    <div *ngIf= "activateDivision.salesDiv" class="container salesContainer infoContent">
+
+        <div class="row tableRow">
+            <!--Heading-->
+            <h4 class="infoHeading">My Sales</h4>
+            <!--start of table-->
+            <table class="table">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Company</th>
+                        <th>Ticker</th>
+                        <th>Industry</th>
+                        <th>Units</th>
+                        <th>Purchase Price</th>
+                        <th>Brokerage - Purchase</th>
+                        <th>Brokerage - Sale</th>
+                        <th>Total Cost</th>
+                        <th>Sale Price</th>
+                        <th>Sale Value</th>
+                        <th>Profit/Loss</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+                    <tr *ngFor="let sale of salesData.sales"> 
+                        <td>{{sale.companyName}}</td>
+                        <td>{{sale.ticker}}</td>
+                        <td>{{sale.industry}}</td>
+                        <td>{{sale.units}}</td>
+                        <td>{{sale.purchasePrice}}</td>
+                        <td>{{sale.brokerageFeePurchase}}</td>
+                        <td>{{sale.brokerageFeeSale}}</td>
+                        <td>{{getTotalCost(sale.units, sale.purchasePrice, sale.brokerageFeePurchase, sale.brokerageFeeSale)}}</td>
+                        <td>{{sale.salePrice}}</td>
+                        <td>{{getSaleValue(sale.salePrice, sale.units)}}</td>
+                        <td>{{getPOrL(getSaleValue(sale.salePrice, sale.units), getTotalCost(sale.units, sale.purchasePrice, sale.brokerageFeePurchase, sale.brokerageFeeSale))}}</td>
+
+                    </tr>
+                        
+                </tbody>
+
+            </table>
+
+        </div>
+            
+
+    </div>
+
+    <div *ngIf= "activateDivision.purchasesDiv" class="container purchasesContainer infoContent">
+
+        <div class="row tableRow">
+            <!--Heading-->
+            <h4 class="infoHeading">My Purchases</h4>
+            <!--start of table-->
+            <table class="table">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Company</th>
+                        <th>Ticker</th>
+                        <th>Industry</th>
+                        <th>Units</th>
+                        <th>Purchase Price</th>
+                        <th>Brokerage - Purchase</th>
+                        <th>Brokerage - Sale</th>
+                        <th>Total Cost</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    
+                    <tr *ngFor="let purchase of purchasesData.purchases"> 
+                        <td>{{purchase.companyName}}</td>
+                        <td>{{purchase.ticker}}</td>
+                        <td>{{purchase.industry}}</td>
+                        <td>{{purchase.units}}</td>
+                        <td>{{purchase.purchasePrice}}</td>
+                        <td>{{purchase.brokerageFeePurchase}}</td>
+                        <td>{{purchase.brokerageFeeSale}}</td>
+                        <td>{{getTotalCost(purchase.units, purchase.purchasePrice, purchase.brokerageFeePurchase, purchase.brokerageFeeSale)}}</td>
+                    </tr>
+                        
+                </tbody>
+
+            </table>
+        </div>
+
+    </div>
+</div>

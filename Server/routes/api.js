@@ -7,6 +7,9 @@ const mongooseDB = "mongodb+srv://DBMaster:DBKiwwe%21@cluster0.kagld.mongodb.net
 //requring model
 const User = require('../models/User')
 
+//require yahoo finance
+const yahooFinance = require('yahoo-finance');
+
 mongoose.connect(mongooseDB, error =>{
 
     //if connection success check
@@ -78,13 +81,12 @@ router.post('/checkHolding', (req, res) =>{
             res.status(401).send('Error checking Holdings!')
         }else{
 
-            let unitsAvailable = false
             for(let i = 0; i < userFound.holdings.length; i++){
                 if(userFound.holdings[i].ticker == tempTicker){
                     if(userFound.holdings[i].units >= tempUnits){
 
-                        let remainingUnitsAfterSale = tempUnits - userFound.holdings[i].units
-                        res.status(200).send(userFound.holdings[i]._id + " " + remainingUnitsAfterSale)
+                        // let remainingUnitsAfterSale = tempUnits - userFound.holdings[i].units
+                        res.status(200).send(userFound.holdings[i])
                         return
                     }else{
                         res.status(401).send('' + userFound.holdings[i].units)
@@ -95,7 +97,7 @@ router.post('/checkHolding', (req, res) =>{
                
             }
 
-            res.status(401).send(unitsAvailable)
+            res.status(401).send("Not Found")
 
         }
     })
@@ -122,7 +124,8 @@ router.post('/addSale', (req, res) =>{
                     brokerageFeePurchase: saleInfo2.brokerageFeePurchase, 
                     brokerageFeeSale: saleInfo2.brokerageFeeSale,
                     dateBought: saleInfo2.dateBought,
-                    dateSold: saleInfo2.dateSold
+                    dateSold: saleInfo2.dateSold,
+                    salePrice: saleInfo2.salePrice
                 }
             },
         },
@@ -130,9 +133,9 @@ router.post('/addSale', (req, res) =>{
 
             if(error2 || !call.acknowledged){
     
-                res.status(401).send('Sale not added!')
+                res.status(401).send("Sale not added!")
             }else{
-                res.status(200).send('Sale Added')
+                res.status(200).send("Sale Added")
             }
         }
     )
@@ -201,6 +204,7 @@ router.post('/addStock', (req, res) =>{
         {
             $inc:{
                 purchaseCount: 1,
+                holdingCount: 1
             },
             $push:{
                 
@@ -233,9 +237,9 @@ router.post('/addStock', (req, res) =>{
 
             if(error2 || !response.acknowledged){
 
-                res.status(401).send('Stock not added!')
+                res.status(401).send(false)
             }else{
-                res.status(200).send('Stock Added')
+                res.status(200).send(true)
             }
         }
         
@@ -282,6 +286,33 @@ router.post('/getPurchases', (req, res)=>{
     )
 })
 
+//check units
+router.post('/checkUnits', (req, res)=>{
+
+    let info = req.body
+
+    User.findOne(
+        {"username": info.username},
+        (error, userFound)=> {
+            if(error){
+                res.status(401).send('Error checking Holdings!')
+            }else{
+    
+                for(let i = 0; i < userFound.holdings.length; i++){
+                    if(userFound.holdings[i].ticker == info.ticker){
+                        res.status(200).send(''+userFound.holdings[i].units)
+                        return
+                    }
+    
+                }
+    
+                res.status(401).send("Not Found")
+    
+            }
+        })
+
+})
+
 //view sales
 router.post('/getSales', (req, res)=>{
 
@@ -299,6 +330,28 @@ router.post('/getSales', (req, res)=>{
             }
         }
     )
+})
+
+//get current price
+router.post('/getCurrentPrice', (req, res)=>{
+
+    let stockInfo = req.body
+
+    let conctanatedSymbol = stockInfo.symbol + '.AX'
+    
+
+    yahooFinance.quote({
+        symbol: conctanatedSymbol,
+        modules: ['financialData']
+      }, function(error, response) {
+        if(error){
+            res.status(401).send(error)
+        }
+        else{
+            res.status(200).send(response)
+        }
+      });
+    
 })
 
 //export router

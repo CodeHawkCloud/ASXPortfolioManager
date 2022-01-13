@@ -25,4 +25,13 @@ export class LoginService {
       localStorage.removeItem('username')
       this.router.navigate(['/login'])
     }
+
+    //brand press fucntion
+    brandPress(){
+      if(!!localStorage.getItem('username')){
+        this.router.navigate(['/home'])
+      }else{
+        this.router.navigate(['/login'])
+      }
+    }
 }
