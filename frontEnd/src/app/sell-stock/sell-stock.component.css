@@ -1,0 +1,30 @@
+#outerContainer{
+    padding-top: 15px;
+}
+
+#innerContainer{
+}
+
+    /*sell stock container*/
+    .sellStockContainer{
+        margin-top: 10px;
+        padding-left: 0;
+    }
+
+    /*check units container*/
+    .checkUnitsContainer{
+    
+        margin-top: 10px;
+        align-items: center;
+    }
+
+    /*buttons*/
+    .btns{
+        float: right;
+    }
+
+    /*cards*/
+    .card{
+        
+    }
+        

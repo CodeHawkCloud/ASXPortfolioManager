@@ -1,5 +1,19 @@
 .outerContainer{
     border:1px solid red;
-    height: 90vh;
+    height: auto;
     width: 100%;
+}
+
+/*form*/
+/*signUp container*/
+#row_addStock{
+    display: flex;
+    justify-content: center;
+    height: 90vh;
+    align-items: center;
+    
+}
+/*signUp button*/
+#addStock_Button{
+    float: right;
 }

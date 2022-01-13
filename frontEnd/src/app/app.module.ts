@@ -13,7 +13,8 @@ import { HomeComponent } from './home/home.component';
 import { MyPortfolioComponent } from './my-portfolio/my-portfolio.component';
 import { AddStockComponent } from './add-stock/add-stock.component';
 import { SellStockComponent } from './sell-stock/sell-stock.component';
-import { UpdateStockComponent } from './update-stock/update-stock.component';
+import { AddAndSellService } from './add-and-sell.service';
+import { PortfolioService } from './portfolio.service';
 
 @NgModule({
   declarations: [
@@ -23,8 +24,7 @@ import { UpdateStockComponent } from './update-stock/update-stock.component';
     HomeComponent,
     MyPortfolioComponent,
     AddStockComponent,
-    SellStockComponent,
-    UpdateStockComponent
+    SellStockComponent
   ],
   imports: [
     BrowserModule,
@@ -34,7 +34,10 @@ import { UpdateStockComponent } from './update-stock/update-stock.component';
   ],
   providers: [
     SignUpService,
-    LoginService
+    LoginService,
+    AddAndSellService,
+    PortfolioService
+    
   ],
   bootstrap: [AppComponent]
 })

@@ -6,7 +6,6 @@ import { LoginComponent } from './login/login.component';
 import { MyPortfolioComponent } from './my-portfolio/my-portfolio.component';
 import { SellStockComponent } from './sell-stock/sell-stock.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
-import { UpdateStockComponent } from './update-stock/update-stock.component';
 
 const routes: Routes = [
 
@@ -43,12 +42,6 @@ const routes: Routes = [
   {
     path: 'addAStock',
     component: AddStockComponent
-  },
-
-  //update a stock component
-  {
-    path: 'updateAStock',
-    component: UpdateStockComponent
   },
 
   //sell a stock component

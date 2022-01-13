@@ -1,4 +1,4 @@
-<div class="container outerContainer">
+
     <div class="row" id="row_addStock">
         <div class="col-sm-6">
             <div class="card">
@@ -7,33 +7,42 @@
                     <form class="form">
                         <div class="form-group">
                             <label for="companyName">Company Name</label>
-                            <input [(ngModel)]="" type="text" class="form-control" id = "companyName" name = "companyName" required>
+                            <input [(ngModel)]="stockData.companyName" type="text" class="form-control" id = "companyName" name = "companyName" required>
                         </div>
                         <div class="form-group">
                             <label for="ticker">Ticker symbol</label>
-                            <input [(ngModel)] = "" type="text" class="form-control" id = "ticker" name="ticker" required>
+                            <input [(ngModel)] = "stockData.ticker" type="text" class="form-control" id = "ticker" name="ticker" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="industry">Industry</label>
+                            <input [(ngModel)] = "stockData.industry" type="text" class="form-control" id = "industry" name="industry" required>
                         </div>
                         <div class="form-group">
                             <label for="purchasePrice">Purchase Price</label>
-                            <input [(ngModel)] = "" type="number" class="form-control" id = "purchasePrice" name="purchasePrice" required>
+                            <input [(ngModel)] = "stockData.purchasePrice" type="number" class="form-control" id = "purchasePrice" name="purchasePrice" required>
                         </div>
                         <div class="form-group">
                             <label for="units">Units</label>
-                            <input [(ngModel)] = "" type="number" class="form-control" id="units" name="units" required>
+                            <input [(ngModel)] = "stockData.units" type="number" class="form-control" id="units" name="units" required>
                         </div>
                         <div class="form-group">
                             <label for="brokeragePurchase">Brokerage fee for Purchase</label>
-                            <input [(ngModel)] = "" type="number" class="form-control" id="brokeragePurchase" name="brokeragePurchase" required>
+                            <input [(ngModel)] = "stockData.brokerageFeePurchase" type="number" class="form-control" id="brokeragePurchase" name="brokeragePurchase" required>
                         </div>
 
                         <div class="form-group">
                             <label for="brokerageSale">Estimated brokerage fee on sale</label>
-                            <input [(ngModel)] = "" type="number" class="form-control" id="brokerageSale" name="brokerageSale" required>
+                            <input [(ngModel)] = "stockData.brokerageFeeSale" type="number" class="form-control" id="brokerageSale" name="brokerageSale" required>
                         </div>
-                        <button (click) = "" class="btn btn-primary" id="">Add Stock</button>
+
+                        <div class="form-group">
+                            <label for="dateBought">Date bought</label>
+                            <input [(ngModel)] = "stockData.datebought" type="date" class="form-control" id="dateBought" name="dateBought" required>
+                        </div>
+
+                        <button (click) = "addStock()" class="btn btn-primary" id="addStock_Button">Add Stock</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-</div>

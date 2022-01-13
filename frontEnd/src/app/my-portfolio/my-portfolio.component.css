@@ -1,0 +1,22 @@
+/*buttons on top*/
+#buttonRow{
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+.btns{
+    margin-right: 10px;
+    color: white;
+}
+
+/*info contents*/
+.infoContent{
+
+    
+}
+
+/*table Row*/
+.tableRow{
+    margin-top: 10px;
+}
