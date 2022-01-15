@@ -332,7 +332,7 @@ router.post('/getSales', (req, res)=>{
     )
 })
 
-//get current price
+//get current price of a single stock
 router.post('/getCurrentPrice', (req, res)=>{
 
     let stockInfo = req.body
@@ -351,6 +351,27 @@ router.post('/getCurrentPrice', (req, res)=>{
             res.status(200).send(response)
         }
       });
+    
+})
+
+//get current prices of multiple stocks
+router.post('/getMultipleStockCurrentPrices', (req, res)=>{
+
+    let tempSymbols = req.body
+
+    yahooFinance.quote({
+        symbols: tempSymbols,
+        modules: ['financialData']
+      }, function(error, response) {
+        if(error){
+            res.status(401).send(error)
+        }
+        else{
+            res.status(200).send(response)
+        }
+      });
+  
+    
     
 })
 
