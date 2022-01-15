@@ -42,16 +42,29 @@
                         <td>{{holding.purchasePrice}}</td>
                         <td>{{holding.brokerageFeePurchase}}</td>
                         <td>{{holding.brokerageFeeSale}}</td>
-                        <td>{{getTotalCost(holding.units, holding.purchasePrice, holding.brokerageFeePurchase, holding.brokerageFeeSale)}}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{{holding.purchasePrice + holding.brokerageFeePurchase + holding.brokerageFeeSale | number: '1.2-2'}}</td>
 
-                    </tr>
+
+                        <!--get the current price, calculate the total vale and finally calculate the profit and loss-->
+                       <ng-container *ngFor="let stock of stockTickerAndPrice">
                         
+                            <ng-container *ngIf="holding.ticker == stock.ticker">
+
+                                <td>{{stock.price}}</td>
+                                <td>{{(stock.price * holding.units) | number : '1.2-2'}}</td>
+                                <td>{{(stock.price * holding.units) - (holding.purchasePrice + holding.brokerageFeePurchase + holding.brokerageFeeSale) | number: '1.2-2'}}</td>
+                                            
+                            </ng-container> 
+                               
+
+                        </ng-container>
+                       
+                    </tr>                        
                 </tbody>
 
             </table>
+
+            
         </div>
     
     </div>

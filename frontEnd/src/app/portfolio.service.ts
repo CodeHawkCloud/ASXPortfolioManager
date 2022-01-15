@@ -8,17 +8,20 @@ import { Injectable } from '@angular/core';
 
 export class PortfolioService {
 
-//get holdings URL
-private getHoldingsURL = "http://localhost:3002/api/getHoldings"
+  //get holdings URL
+  private getHoldingsURL = "http://localhost:3002/api/getHoldings"
 
-//get sales URL
-private getSalesURL = "http://localhost:3002/api/getSales"
+  //get sales URL
+  private getSalesURL = "http://localhost:3002/api/getSales"
 
-//get purchases URL
-private getPurchasesURL = "http://localhost:3002/api/getPurchases"
+  //get purchases URL
+  private getPurchasesURL = "http://localhost:3002/api/getPurchases"
 
-//get current price URL
-private getCurrentPriceURL = "http://localhost:3002/api/getCurrentPrice"
+  //get current price URL
+  private getCurrentPriceURL = "http://localhost:3002/api/getCurrentPrice"
+
+  //get prices of all the stocks
+  private getMultipleStockCurrentPricesURL = "http://localhost:3002/api/getMultipleStockCurrentPrices"
 
   constructor(private http: HttpClient) { 
   }
@@ -42,4 +45,11 @@ private getCurrentPriceURL = "http://localhost:3002/api/getCurrentPrice"
   getCurrentPrice(stock: any){
     return this.http.post(this.getCurrentPriceURL, stock)
   }
+  
+  //get prices of all the stocks held
+  getPricesOfAllStocks(stockTickers: String[]){
+
+    return this.http.post(this.getMultipleStockCurrentPricesURL, stockTickers)
+  }
+  
 }
